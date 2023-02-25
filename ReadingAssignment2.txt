@@ -1,0 +1,68 @@
+Gabriel Villanueva
+#027366415
+CECS 326 Sec 01
+Reading Assignment 2
+Test123
+
+1. Assume that you are trying to download a large 2-GB file from the Internet. The file is available from a set of mirror servers, each of which can deliver 
+a subset of the file’s bytes; assume that a given request specifies the starting and ending bytes of the file. Explain how you might use threads to improve the download time.
+Answer: You might use threads to improve the download time by creating separate threads to fetch different parts of the file from one of the mirror servers, which will 
+improve time to download.
+
+2. What is the biggest advantage of implementing threads in user space? What is the biggest disadvantage? 
+Answer: The biggest advantage of implementing threads in user space is that it can be more efficient, where no traps to the kernel are needed
+to switch threads. The biggest disadvantage to this is that if one thread blocks, the whole process blocks.
+
+3. Does Peterson’s solution to the mutual-exclusion problem shown in Fig. 2-24 of MOS4e work when process scheduling is preemptive? How about when it is nonpreemptive?
+Answer: With preemptive scheduling, it works. When it is nonpreemptive, it has a chance to fail, i.e.) turn is 0 at first, but process 1 runs first, resulting in an infinite loop.
+
+4. The producer-consumer problem can be extended to a system with multiple producers and consumers that write (or read) to (from) one shared buffer. Assume that each producer 
+and consumer runs in its own thread. Will the solution presented in Fig. 2-28 of MOS4e, using semaphores, work for this system?
+Answer:
+The solution presented in the figure 2-28 will work for this system through synchronization.
+
+5. How could an operating system that can disable interrupts implement semaphores?
+Answer:
+a) OS disables interupts 
+b) reads value of semaphores
+    i) if down and == 0, puts calling process on a list of blocked processes
+    ii) if up, check if any processes are blocked by semaphores
+        iia) if 1 or more blocked processes, one process is removed from list of blocked proceses and made runable
+c) when all completed, interupts are enabled again
+
+6. A fast-food restaurant has four kinds of employees: (a) order takers, who take customers’ orders; (b) cooks, who prepare the food; (c) packaging specialists, 
+who stuff the food into bags; and (d) cashiers, who give the bags to customers and take their money. Each employee can be regarded as a communicating sequential process. 
+What form of interprocess communication do they use? Relate this model to processes in UNIX.
+Answer: Forms of interprocess communication used are: orders, food, and bags. Relating this to processes in UNIX, they are connected via pipes.
+
+7. Five jobs are waiting to be run. Their expected run times are 9, 6, 3, 5, and x. In what order should they be run to minimize average response time? 
+(Your answer will depend on x).
+Answer: 
+If x == 0, then {0, 3, 5, 6, 9}
+If x == 4, then {3, 4, 5, 6, 9}
+Answer really depends on what x equals. 
+
+8. The aging algorithm with a = 1/2 is being used to predict run times. The previous four runs, from oldest to most recent, are 40, 20, 40, and 15 msec. 
+What is the prediction of the next time? Explain.
+Answer:
+Estimation of the next running time = aE(i-1) + (1-a)Ti, Where E(i-1) is the past estimation and Ti is the time of the recent run for that process,
+= (((40 + 20) / 2 + 40) / 2 + 15) / 2
+= ((30 + 40) / 2 + 15) /2
+= (35 + 15) / 2
+= 25
+
+9. In the dining philosophers problem, let the following protocol be used: An even-numbered philosopher always picks up his left fork before picking up his right fork; 
+an odd-numbered philosopher always picks up his right fork before picking up his left fork. Will this protocol guarantee deadlock-free operation? Why or why not?
+Answer:
+This protocol will guarantee deadlock-free operation because only one philosopher is waiting on somebody to finish.
+
+10. The readers and writers problem can be formulated in several ways with regard to which category of processes can be started when. Carefully describe three different 
+variations of the problem, each one favoring (or not favoring) some category of processes. For each variation, specify what happens when a reader or a writer becomes ready 
+to access the database, and what happens when a process is finished.
+Answer:
+Case 1:
+Process 1 = Writing, Process 2 = Writing; When process 1 is done writing, process 2 can write. Process 2 waits.
+Case 2:
+Process 1 = Reading, Process 2 = Writing; When process 1 is done reading, process 2 can write. Process 2 waits.
+Case 3:
+Process 1 = Reading, Process 2 = Reading; Process 1 and process 2 can read at the same time, no waiting.
